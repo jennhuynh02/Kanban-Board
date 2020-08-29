@@ -1,9 +1,9 @@
 import React from "react";
 
-class Card extends React.Component {
+class Column extends React.Component {
     constructor(props) {
         super(props);
     }
 }
 
-export default Card;
+export default Column;
