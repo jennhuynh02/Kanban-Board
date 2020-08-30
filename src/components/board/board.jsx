@@ -11,6 +11,7 @@ class Board extends React.Component {
     }
 
     this.update = this.update.bind(this);
+    this.addColumn = this.addColumn.bind(this);
     this.deleteColumn = this.deleteColumn.bind(this);
     this.move = this.move.bind(this);
     this.set = this.set.bind(this);
@@ -36,6 +37,15 @@ class Board extends React.Component {
           columns: copy,
         });
       }
+  }
+
+  addColumn() {
+    return (e) => {
+      e.preventDefault();
+      let copy = this.state.columns;
+      copy.push("")
+      this.setState({ columns: copy});
+    }
   }
 
   move(idx) {
@@ -82,6 +92,7 @@ class Board extends React.Component {
             <button onClick={this.deleteColumn(idx)}>X</button>
           </div>
         ))}
+        <button onClick={this.addColumn()}>Add Column</button>
       </div>
     )
   }
