@@ -6,8 +6,13 @@ class Card extends React.Component {
         this.state = {
             title: props.title,
             description: props.description,
+            columnId: props.columnId,
             hidden: true,
         }
+    }
+
+    updateColumnId(cId){
+         this.setState({columnId: cId});
     }
 
     updateTitle(t){
@@ -15,7 +20,7 @@ class Card extends React.Component {
     }
 
     updateDescription(desc){
-        this.setState({desc: desc});
+        this.setState({description: desc});
     }
 
     deleteCard(){

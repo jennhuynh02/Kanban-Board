@@ -55,7 +55,7 @@ class Board extends React.Component {
     }
   }
 
-  set(idx) {
+  set(idx) { // 0
     return (e) => {
       console.log(this.state)
         e.preventDefault();
@@ -89,7 +89,7 @@ class Board extends React.Component {
       <div>
         <div className="all-columns">
           {this.state.columns.map((col, idx) => (
-            <div key={idx} draggable="true" axis="x" className="column" onDrag={this.move(idx)} onDragEnter={this.set(idx)}>
+            <div key={idx} draggable="true" axis="x" className="column" onDrag={this.move(idx)} onDrop={this.set(idx)}>
               <input value={col} onChange={this.update(idx)} className="column-title"/>
               <button onClick={this.deleteColumn(idx)}>X</button>
             </div>
