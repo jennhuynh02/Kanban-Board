@@ -125,6 +125,7 @@ class Board extends React.Component {
           copy[i] = copy[i + 1];
           copyCards[i+1].map(c => {
             c.columnId--;
+            return c;
           })
           copyCards[i] = copyCards[i+1]
         }
@@ -141,6 +142,7 @@ class Board extends React.Component {
           copy[j] = copy[j - 1];
           copyCards[j-1].map(c => {
             c.columnId++;
+            return c;
           })
           copyCards[j] = copyCards[j-1];
         }
