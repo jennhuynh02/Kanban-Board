@@ -103,7 +103,6 @@ class Board extends React.Component {
         let cardsCopy = this.state.cards;
         cardsCopy[Object.keys(cardsCopy).length] = [{"title": "", "description": ""}]
         copy.push("")
-        (cardsCopy, idx);
         this.setState({
           columns: copy,
           cards: cardsCopy,
