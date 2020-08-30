@@ -7,61 +7,56 @@ class Board extends React.Component {
     super(props);
     this.state = {
       columns: ["Todo", "In progress", "Done"],
+      cards: { 0: [{ "title": "One", "description": "Apple" }], 1: [{ "title": "Two", "description": "Banana" }], 2: [{ "title": "Three", "description": "Carrot" }] },
       drag: null,
       set: null,
     }
 
     this.update = this.update.bind(this);
-    this.addColumn = this.addColumn.bind(this);
-    this.deleteColumn = this.deleteColumn.bind(this);
-    this.move = this.move.bind(this);
-    this.set = this.set.bind(this);
+    this.updateCard = this.updateCard.bind(this);
+    this.editColumn = this.editColumn.bind(this);
     this.swap = this.swap.bind(this);
   }
 
-  update(idx) {
-    return (e) => {
-      let copy = this.state.columns;
-      copy[idx] = e.currentTarget.value;
-      this.setState({ columns: copy });
-    }
-  }
-
-  deleteColumn(idx) {
+  update(idx, field) {
     return (e) => {
       e.preventDefault();
-      let copy = this.state.columns;
-      for (let i = idx; i < copy.length - 1; i++) {
-        copy[i] = copy[i + 1];
+      if (field === "drag" || field === "set") {
+        this.setState({ [field]: idx });
+      } else {
+        let copy = this.state.columns;
+        copy[idx] = e.currentTarget.value;
+        this.setState({ columns: copy });
       }
-      copy.pop();
-      this.setState({
-        columns: copy,
-      });
     }
   }
 
-  addColumn() {
+  updateCard(columnIdx, cardID, field) {
     return (e) => {
       e.preventDefault();
-      let copy = this.state.columns;
-      copy.push("")
-      this.setState({ columns: copy });
-    }
+      let updated = this.state.cards;
+      updated[columnIdx][cardID][field] = e.currentTarget.value;
+      this.setState({ cards: updated });
+    }    
   }
 
-  move(idx) {
+  editColumn(idx) {
     return (e) => {
       e.preventDefault();
-      this.setState({ drag: idx });
-    }
-  }
-
-  set(idx) {
-    return (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      this.setState({ set: idx })
+      if (idx) {
+        let copy = this.state.columns;
+        for (let i = idx; i < copy.length - 1; i++) {
+          copy[i] = copy[i + 1];
+        }
+        copy.pop();
+        this.setState({
+          columns: copy,
+        });
+      } else {
+        let copy = this.state.columns;
+        copy.push("")
+        this.setState({ columns: copy });        
+      }
     }
   }
 
@@ -94,18 +89,21 @@ class Board extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <div className="board">
-        <button onClick={this.addColumn()}>Add Column</button>
+        <button onClick={this.editColumn()}>Add Column</button>
         <div className="all-columns">
           {this.state.columns.map((col, idx) => (
-            <div key={idx} draggable="true" axis="x" className="column" onDrag={this.move(idx)} onDragOver={this.set(idx)} onDrop={this.swap()}>
+            <div key={idx} draggable="true" axis="x" className="column" onDrag={this.update(idx, "drag")} onDragOver={this.update(idx, "set")} onDrop={this.swap()}>
               <div className="column-head">
                 <input value={col} onChange={this.update(idx)} className="column-title" />
-                <button onClick={this.deleteColumn(idx)}>X</button>
+                <button onClick={this.editColumn(idx)}>X</button>
                 <button>+</button>
               </div>
-              {/* <Card /> */}
+              {this.state.cards[idx].map((card, cardID) => (
+                <Card title={card.title} description={card.description} categoryIdx={idx} cardID={cardID} key={cardID} updateCard={this.updateCard}/>
+              ))}
             </div>
           ))}
         </div>
