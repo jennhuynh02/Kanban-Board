@@ -18,6 +18,10 @@
   padding: 10px;
 }
 
+.column-buttons {
+  height: fit-content;
+}
+
 .column-head {
   display: flex;
   height: fit-content;
@@ -31,4 +35,16 @@
 
 .column-title {
   text-align: center;
+  font-size: large;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+}
+
+input {
+  cursor: pointer;
 }
