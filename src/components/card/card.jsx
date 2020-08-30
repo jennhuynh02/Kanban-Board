@@ -29,17 +29,17 @@ class Card extends React.Component {
 
     render(){
         return (
-            <div class="card">
-                <div class="cardTitle">
+            <div className="card">
+                <div className="cardTitle">
                     {this.state.title}
                 </div>
                 {this.state.hidden ?
-                    <div class="cardDescription" hidden>
+                    (<div className="cardDescription" hidden>
                         {this.state.description}
-                    </div> :
-                    <div class="cardDescription">
+                    </div>) :
+                    (<div className="cardDescription">
                         {this.state.description}
-                    </div>
+                    </div>)
                 }
                 
             </div>
