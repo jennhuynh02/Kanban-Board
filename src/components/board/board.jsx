@@ -15,6 +15,7 @@ class Board extends React.Component {
     this.deleteColumn = this.deleteColumn.bind(this);
     this.move = this.move.bind(this);
     this.set = this.set.bind(this);
+    this.swap = this.swap.bind(this);
   }
 
   update(idx) {
@@ -28,15 +29,15 @@ class Board extends React.Component {
   deleteColumn(idx) {
     return (e) => {
       e.preventDefault();
-        let copy = this.state.columns;
-        for (let i = idx; i < copy.length - 1; i++) {
-          copy[i] = copy[i + 1];
-        }
-        copy.pop();
-        this.setState({
-          columns: copy,
-        });
+      let copy = this.state.columns;
+      for (let i = idx; i < copy.length - 1; i++) {
+        copy[i] = copy[i + 1];
       }
+      copy.pop();
+      this.setState({
+        columns: copy,
+      });
+    }
   }
 
   addColumn() {
@@ -44,7 +45,7 @@ class Board extends React.Component {
       e.preventDefault();
       let copy = this.state.columns;
       copy.push("")
-      this.setState({ columns: copy});
+      this.setState({ columns: copy });
     }
   }
 
@@ -57,30 +58,37 @@ class Board extends React.Component {
 
   set(idx) {
     return (e) => {
-      console.log(this.state)
-        e.preventDefault();
-        if (this.state.drag < idx) {
-          let copy = this.state.columns;
-          let a = copy[this.state.drag];
-          for (let i = this.state.drag; i <= idx; i++) {
-            copy[i] = copy[i+1];
-          }
-          copy[idx] = a;
-          this.setState({ 
-            set: idx,
-            columns: copy });
-          } else {
-          let copy = this.state.columns;
-          let b = copy[this.state.drag];
-          for (let j = this.state.drag; j > idx; j--) {
-            copy[j] = copy[j-1];
-          }
-          copy[idx] = b;
-          this.setState({ 
-            set: idx,
-            columns: copy });
+      e.stopPropagation();
+      e.preventDefault();
+      this.setState({ set: idx })
+    }
+  }
+
+  swap() {
+    return (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      if (this.state.drag < this.state.set) {
+        let copy = this.state.columns;
+        let a = copy[this.state.drag];
+        for (let i = this.state.drag; i < this.state.set; i++) {
+          copy[i] = copy[i + 1];
         }
-      console.log(this.state.columns)
+        copy[this.state.set] = a;
+        this.setState({
+          columns: copy
+        });
+      } else {
+        let copy = this.state.columns;
+        let b = copy[this.state.drag];
+        for (let j = this.state.drag; j > this.state.set; j--) {
+          copy[j] = copy[j - 1];
+        }
+        copy[this.state.set] = b;
+        this.setState({
+          columns: copy
+        });
+      }
     }
   }
 
@@ -89,13 +97,14 @@ class Board extends React.Component {
       <div>
         <div className="all-columns">
           {this.state.columns.map((col, idx) => (
-            <div key={idx} draggable="true" axis="x" className="column" onDrag={this.move(idx)} onDragEnter={this.set(idx)}>
-              <input value={col} onChange={this.update(idx)} className="column-title"/>
+            <div key={idx} draggable="true" axis="x" className="column" onDrag={this.move(idx)} onDragOver={this.set(idx)} onDrop={this.swap()}>
+              <input value={col} onChange={this.update(idx)} className="column-title" />
               <button onClick={this.deleteColumn(idx)}>X</button>
+              <button>+</button>
             </div>
           ))}
         </div>
-          <button onClick={this.addColumn()}>Add Column</button>
+        <button onClick={this.addColumn()}>Add Column</button>
       </div>
     )
   }
