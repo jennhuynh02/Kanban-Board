@@ -1,8 +1,26 @@
+.all-columns {
+  display: flex;
+  margin: 10px;
+  justify-content: center;
+}
+
 .column {
   height: 600px;
   width: 250px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 10px;
 }
 
-.all-columns {
-  display: flex;
+.column:hover {
+  border: 1px solid white;
+}
+
+.column-title {
+  text-align: center;
+}
+
+.root head body {
+  height: 100%;
 }

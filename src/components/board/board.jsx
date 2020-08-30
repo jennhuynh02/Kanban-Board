@@ -57,6 +57,7 @@ class Board extends React.Component {
 
   set(idx) {
     return (e) => {
+      console.log(this.state)
         e.preventDefault();
         if (this.state.drag < idx) {
           let copy = this.state.columns;
@@ -85,14 +86,16 @@ class Board extends React.Component {
 
   render() {
     return (
-      <div className="all-columns">
-        {this.state.columns.map((col, idx) => (
-          <div key={idx} draggable="true" className="column" onDrag={this.move(idx)} onDragEnter={this.set(idx)}>
-            <input value={col} onChange={this.update(idx)}/>
-            <button onClick={this.deleteColumn(idx)}>X</button>
-          </div>
-        ))}
-        <button onClick={this.addColumn()}>Add Column</button>
+      <div>
+        <div className="all-columns">
+          {this.state.columns.map((col, idx) => (
+            <div key={idx} draggable="true" axis="x" className="column" onDrag={this.move(idx)} onDragEnter={this.set(idx)}>
+              <input value={col} onChange={this.update(idx)} className="column-title"/>
+              <button onClick={this.deleteColumn(idx)}>X</button>
+            </div>
+          ))}
+        </div>
+          <button onClick={this.addColumn()}>Add Column</button>
       </div>
     )
   }
