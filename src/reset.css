@@ -16,7 +16,9 @@ time, mark, audio, video {
 	border: 0;
 	font-size: 100%;
 	font: inherit;
+	height: 100%;
 	vertical-align: baseline;
+	background-color: aliceblue;
 }
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
