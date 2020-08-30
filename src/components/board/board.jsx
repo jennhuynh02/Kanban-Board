@@ -72,6 +72,7 @@ class Board extends React.Component {
   }
   
   moveCard(idx, newIdx, cardId) {
+    if(newIdx < 0 || newIdx >= Object.keys(this.state.columns).length) return
     let copy = this.state.cards;
     let card = copy[idx][cardId];
     card.columnId = newIdx;
