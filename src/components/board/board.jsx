@@ -18,7 +18,8 @@ class Board extends React.Component {
     this.update = this.update.bind(this);
     this.updateCard = this.updateCard.bind(this);
     this.createCard = this.createCard.bind(this);
-    this.removeCard = this.removeCard.bind(this)
+    this.removeCard = this.removeCard.bind(this);
+    this.moveCard = this.moveCard.bind(this);
     this.editColumn = this.editColumn.bind(this);
     this.swap = this.swap.bind(this);
   }
@@ -57,14 +58,22 @@ class Board extends React.Component {
 
   }
 
-  createCard(idx) {
-    console.log("last state", this.state.cards)
+  createCard(idx, t="", d="", c="") {
+    console.log("last state", this.state.cards, c)
     return (e) => {
       e.preventDefault();
       let updated = this.state.cards;
-      updated[idx].push({title:"", description: "", columnId: idx, slotId: this.state.cards[idx].length});
+      updated[idx].push({title: t, description: d, columnId: idx, slotId: this.state.cards[idx].length});
       this.setState({ cards: updated });
     }    
+  }
+  
+  moveCard(idx, newIdx, cardId) {
+    let copy = this.state.cards;
+    let card = copy[idx][cardId];
+    card.idx = newIdx;
+    card.cardID = copy[newIdx].length;
+    copy[newIdx].push(card);
   }
 
   editColumn(idx) {
@@ -102,14 +111,6 @@ class Board extends React.Component {
     }
   }
 
-  move() {
-    return (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      let copy = this.state.cards[this.state.drag];
-
-    }
-  }
   swap() {
     return (e) => {
       e.stopPropagation();
@@ -150,7 +151,7 @@ class Board extends React.Component {
                 <input value={col} onChange={this.update(idx)} className="column-title" />
               </div>
               {this.state.cards[idx].map((card, cardID) => (
-                <Card title={card.title} description={card.description} categoryIdx={idx} cardID={cardID} key={cardID} updateCard={this.updateCard} removeCard={this.removeCard}/>
+                <Card title={card.title} description={card.description} categoryIdx={idx} cardID={cardID} key={cardID} moveCard={this.moveCard} updateCard={this.updateCard} removeCard={this.removeCard}/>
                 ))}
             <div className="column-buttons">
               <button onClick={this.editColumn(idx)}>Delete Column</button>
