@@ -1,19 +1,30 @@
 .card {
-    background: blue;
-    width: 80%;
-    margin-bottom: 5px;
-    border: black solid 2px;
-    border-radius: 10px;
-
+    background-color: slategrey;
+    border-radius: 1%;
+    height: fit-content;
+    margin: 20px;
+    padding: 10px;
 }
 
-.cardTitle {
+.card-title {
     text-align: center;
-    visibility: hidden;
+    background-color: transparent;
+    margin-bottom: 5px;
+    border: none;
+    color: white;
+    font-size: large;
+    cursor: pointer;
 }
 
-.cardDescription {
-    margin-left: 2px;
-    margin-right: 2px;
-    border-top: black solid 2px;
+.card-title:focus {
+    background-color: white;
+    color: black;
+}
+
+.card-description {
+
+}
+
+::placeholder {
+  color: white;
 }
