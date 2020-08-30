@@ -8,12 +8,14 @@ class Board extends React.Component {
     this.state = {
       columns: ["Todo", "In progress", "Done"],
       cards: { 0: [{ "title": "One", "description": "Apple" }], 1: [{ "title": "Two", "description": "Banana" }], 2: [{ "title": "Three", "description": "Carrot" }] },
+      unassigned: [],
       drag: null,
       set: null,
     }
 
     this.update = this.update.bind(this);
     this.updateCard = this.updateCard.bind(this);
+    this.createCard = this.createCard.bind(this);
     this.editColumn = this.editColumn.bind(this);
     this.swap = this.swap.bind(this);
   }
@@ -40,22 +42,46 @@ class Board extends React.Component {
     }    
   }
 
+  createCard(idx) {
+    return (e) => {
+      e.preventDefault();
+      let updated = this.state.cards;
+      updated[idx].push({title:"", description: ""});
+      this.setState({ cards: updated });
+    }    
+  }
+
   editColumn(idx) {
     return (e) => {
       e.preventDefault();
-      if (idx) {
+      if (idx >= 0) {
         let copy = this.state.columns;
         for (let i = idx; i < copy.length - 1; i++) {
           copy[i] = copy[i + 1];
         }
         copy.pop();
+        let cardsCopy = this.state.cards;
+        for (let j = idx; j < Object.keys(cardsCopy).length - 1; j++) {
+          cardsCopy[j] = cardsCopy[j+1];
+        }
+        let unassignedCopy = cardsCopy[Object.keys(cardsCopy).length - 1];
+        delete cardsCopy[Object.keys(cardsCopy).length - 1];
+        console.log(cardsCopy, idx);
         this.setState({
+          unassigned: [unassignedCopy],
           columns: copy,
+          cards: cardsCopy,
         });
       } else {
         let copy = this.state.columns;
+        let cardsCopy = this.state.cards;
+        cardsCopy[Object.keys(cardsCopy).length] = [{"title": "", "description": ""}]
         copy.push("")
-        this.setState({ columns: copy });        
+        console.log(cardsCopy, idx);
+        this.setState({
+          columns: copy,
+          cards: cardsCopy,
+        });  
       }
     }
   }
@@ -98,15 +124,21 @@ class Board extends React.Component {
             <div key={idx} draggable="true" axis="x" className="column" onDrag={this.update(idx, "drag")} onDragOver={this.update(idx, "set")} onDrop={this.swap()}>
               <div className="column-head">
                 <input value={col} onChange={this.update(idx)} className="column-title" />
-                <button onClick={this.editColumn(idx)}>X</button>
-                <button>+</button>
               </div>
               {this.state.cards[idx].map((card, cardID) => (
                 <Card title={card.title} description={card.description} categoryIdx={idx} cardID={cardID} key={cardID} updateCard={this.updateCard}/>
-              ))}
+                ))}
+            <div className="column-buttons">
+              <button onClick={this.editColumn(idx)}>Delete Column</button>
+              <button onClick={this.createCard(idx)}>Add Task</button>
+            </div>
             </div>
           ))}
         </div>
+        {/* {this.state.unassigned.map((card, cardID) => (
+          <Card title={card.title} description={card.description} categoryIdx={0} cardID={cardID} key={cardID} updateCard={this.updateCard} />
+        ))} 
+        Need to figure out what to do with cards that belongs to deleted columns*/}
       </div>
     )
   }
