@@ -1,0 +1,19 @@
+.card {
+    background: blue;
+    width: 80%;
+    margin-bottom: 5px;
+    border: black solid 2px;
+    border-radius: 10px;
+
+}
+
+.cardTitle {
+    text-align: center;
+    visibility: hidden;
+}
+
+.cardDescription {
+    margin-left: 2px;
+    margin-right: 2px;
+    border-top: black solid 2px;
+}
