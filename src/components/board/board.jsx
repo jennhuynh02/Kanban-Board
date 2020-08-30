@@ -22,6 +22,7 @@ class Board extends React.Component {
     this.moveCard = this.moveCard.bind(this);
     this.editColumn = this.editColumn.bind(this);
     this.swap = this.swap.bind(this);
+    this.fetchDragAndSet = this.fetchDragAndSet.bind(this);
   }
 
   update(idx, field) {
@@ -46,22 +47,26 @@ class Board extends React.Component {
     }    
   }
 
+  fetchDragAndSet() {
+    return [this.state.drag, this.state.set]
+  }
+
   removeCard(idx, cardId){
     let copy = this.state.cards;
     
     for(let i = cardId+1; i < copy[idx].length; i++){
-      copy[idx][i].cardID = i-1;
+      copy[idx][i].cardId = i-1;
     }
     copy[idx] = copy[idx].slice(0, cardId).concat(copy[idx].slice(cardId+1));
     this.setState({cards: copy})
 
   }
 
-  createCard(idx, t="", d="", c="") {
+  createCard(idx, t="", d="") {
     return (e) => {
       e.preventDefault();
       let updated = this.state.cards;
-      updated[idx].push({title: t, description: d, columnId: idx, slotId: this.state.cards[idx].length});
+      updated[idx].push({title: t, description: d, columnId: idx, cardId: this.state.cards[idx].length});
       this.setState({ cards: updated });
     }    
   }
@@ -69,8 +74,8 @@ class Board extends React.Component {
   moveCard(idx, newIdx, cardId) {
     let copy = this.state.cards;
     let card = copy[idx][cardId];
-    card.idx = newIdx;
-    card.cardID = copy[newIdx].length;
+    card.columnId = newIdx;
+    card.cardId = copy[newIdx].length;
     copy[newIdx].push(card);
     this.removeCard(idx, cardId);
     this.setState({
@@ -103,7 +108,6 @@ class Board extends React.Component {
         let cardsCopy = this.state.cards;
         cardsCopy[Object.keys(cardsCopy).length] = [{"title": "", "description": ""}]
         copy.push("")
-        (cardsCopy, idx);
         this.setState({
           columns: copy,
           cards: cardsCopy,
@@ -116,6 +120,8 @@ class Board extends React.Component {
     return (e) => {
       e.stopPropagation();
       e.preventDefault();
+      // debugger;
+      // if(this.state.dragElement === "ncard") return;
       let copyCards = this.state.cards;
       if (this.state.drag < this.state.set) {
         let copy = this.state.columns;
@@ -164,12 +170,12 @@ class Board extends React.Component {
         <button onClick={this.editColumn()}>Add Column</button>
         <div className="all-columns">
           {this.state.columns.map((col, idx) => (
-            <div key={idx} draggable="true" axis="x" className="column" onDrag={this.update(idx, "drag")} onDragOver={this.update(idx, "set")} onDrop={this.swap()}>
+            <div key={idx} draggable="true" axis="x" id="column" className="column" onDrag={this.update(idx, "drag")} onDragOver={this.update(idx, "set")} onDragEnd={this.swap()}>
               <div className="column-head">
                 <input value={col} onChange={this.update(idx)} className="column-title" />
               </div>
               {this.state.cards[idx].map((card, cardID) => (
-                <Card title={card.title} description={card.description} categoryIdx={idx} cardID={cardID} key={cardID} moveCard={this.moveCard} updateCard={this.updateCard} removeCard={this.removeCard}/>
+                <Card title={card.title} description={card.description} categoryIdx={idx} cardID={cardID} key={cardID} fetchDragAndSet={this.fetchDragAndSet} moveCard={this.moveCard} updateCard={this.updateCard} removeCard={this.removeCard}/>
                 ))}
             <div className="column-buttons">
               <button onClick={this.editColumn(idx)}>Delete Column</button>

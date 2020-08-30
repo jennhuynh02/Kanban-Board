@@ -10,6 +10,9 @@ class Card extends React.Component {
         this.toggleCard = this.toggleCard.bind(this);
         this.deleteCard = this.deleteCard.bind(this);
         this.moveCard = this.moveCard.bind(this);
+        this.sIdx = this.props.categoryIdx;
+        this.eIdx = 0;
+        this.cIdx = this.props.cardID;
     }
 
     deleteCard() {
@@ -26,17 +29,17 @@ class Card extends React.Component {
 
     moveCard(diff) {
         const {categoryIdx, cardID} = this.props;
-        // debugger
-        // this.props.createCard(categoryIdx+diff, title, description);
-        // this.props.createCard(0, "test", "haha");
-        // this.deleteCard();
         this.props.moveCard(categoryIdx, categoryIdx+diff, cardID);
     }
 
     render() {
         const { updateCard, categoryIdx, cardID, title, description } = this.props;
         return (
-            <div className="card" draggable="true">
+            <div className="card" draggable="true" onDragEnd={(e) => {
+                 e.stopPropagation()
+                 let arr = this.props.fetchDragAndSet();
+                 this.props.moveCard(arr[0], arr[1], cardID)
+                }}>
                 <input className="card-title" value={title} placeholder="Title" onChange={updateCard(categoryIdx, cardID, "title")} />
                 <input className="card-description" value={description} placeholder="Description" hidden={this.state.hidden} onChange={updateCard(categoryIdx, cardID, "description")} />
                 <br/>
