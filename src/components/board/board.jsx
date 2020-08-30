@@ -50,7 +50,6 @@ class Board extends React.Component {
     let copy = this.state.cards;
     
     for(let i = cardId+1; i < copy[idx].length; i++){
-      console.log(this.state.cards, idx, i)
       copy[idx][i].cardID = i-1;
     }
     copy[idx] = copy[idx].slice(0, cardId).concat(copy[idx].slice(cardId+1));
@@ -59,7 +58,6 @@ class Board extends React.Component {
   }
 
   createCard(idx, t="", d="", c="") {
-    console.log("last state", this.state.cards, c)
     return (e) => {
       e.preventDefault();
       let updated = this.state.cards;
@@ -74,6 +72,10 @@ class Board extends React.Component {
     card.idx = newIdx;
     card.cardID = copy[newIdx].length;
     copy[newIdx].push(card);
+    this.removeCard(idx, cardId);
+    this.setState({
+      cards: copy
+    })
   }
 
   editColumn(idx) {
@@ -91,7 +93,6 @@ class Board extends React.Component {
         }
         let unassignedCopy = cardsCopy[Object.keys(cardsCopy).length - 1];
         delete cardsCopy[Object.keys(cardsCopy).length - 1];
-        console.log(cardsCopy, idx);
         this.setState({
           unassigned: [unassignedCopy],
           columns: copy,
@@ -102,7 +103,7 @@ class Board extends React.Component {
         let cardsCopy = this.state.cards;
         cardsCopy[Object.keys(cardsCopy).length] = [{"title": "", "description": ""}]
         copy.push("")
-        console.log(cardsCopy, idx);
+        (cardsCopy, idx);
         this.setState({
           columns: copy,
           cards: cardsCopy,
@@ -115,32 +116,47 @@ class Board extends React.Component {
     return (e) => {
       e.stopPropagation();
       e.preventDefault();
+      let copyCards = this.state.cards;
       if (this.state.drag < this.state.set) {
         let copy = this.state.columns;
         let a = copy[this.state.drag];
+        let cards = copyCards[this.state.drag];
         for (let i = this.state.drag; i < this.state.set; i++) {
           copy[i] = copy[i + 1];
+          copyCards[i+1].map(c => {
+            c.columnId--;
+          })
+          copyCards[i] = copyCards[i+1]
         }
         copy[this.state.set] = a;
+        copyCards[this.state.set] = cards;
         this.setState({
           columns: copy
         });
       } else {
         let copy = this.state.columns;
         let b = copy[this.state.drag];
+        let cards = copyCards[this.state.drag];
         for (let j = this.state.drag; j > this.state.set; j--) {
           copy[j] = copy[j - 1];
+          copyCards[j-1].map(c => {
+            c.columnId++;
+          })
+          copyCards[j] = copyCards[j-1];
         }
         copy[this.state.set] = b;
+        copyCards[this.state.set] = cards;
         this.setState({
           columns: copy
         });
       }
+      this.setState({
+          cards: copyCards
+        });
     }
   }
 
   render() {
-    console.log(this.state)
     return (
       <div className="board">
         <button onClick={this.editColumn()}>Add Column</button>

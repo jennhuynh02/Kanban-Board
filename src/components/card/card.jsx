@@ -13,7 +13,6 @@ class Card extends React.Component {
     }
 
     deleteCard() {
-        console.log("here")
         const {categoryIdx, cardID} = this.props;
         this.props.removeCard(categoryIdx, cardID);
     }
