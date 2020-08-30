@@ -11,6 +11,7 @@ class Board extends React.Component {
     }
 
     this.update = this.update.bind(this);
+    this.deleteColumn = this.deleteColumn.bind(this);
     this.move = this.move.bind(this);
     this.set = this.set.bind(this);
   }
@@ -23,6 +24,20 @@ class Board extends React.Component {
     }
   }
 
+  deleteColumn(idx) {
+    return (e) => {
+      e.preventDefault();
+        let copy = this.state.columns;
+        for (let i = idx; i < copy.length - 1; i++) {
+          copy[i] = copy[i + 1];
+        }
+        copy.pop();
+        this.setState({
+          columns: copy,
+        });
+      }
+  }
+
   move(idx) {
     return (e) => {
       e.preventDefault();
@@ -33,28 +48,38 @@ class Board extends React.Component {
   set(idx) {
     return (e) => {
         e.preventDefault();
-      if (this.state.drag < idx) {
-        let copy = this.state.columns;
-        let a = copy[this.state.drag];
-        for (let i = this.state.drag; i <= idx; i++) {
-          copy[i] = copy[i+1];
+        if (this.state.drag < idx) {
+          let copy = this.state.columns;
+          let a = copy[this.state.drag];
+          for (let i = this.state.drag; i <= idx; i++) {
+            copy[i] = copy[i+1];
+          }
+          copy[idx] = a;
+          this.setState({ 
+            set: idx,
+            columns: copy });
+          } else {
+          let copy = this.state.columns;
+          let b = copy[this.state.drag];
+          for (let j = this.state.drag; j > idx; j--) {
+            copy[j] = copy[j-1];
+          }
+          copy[idx] = b;
+          this.setState({ 
+            set: idx,
+            columns: copy });
         }
-        copy[idx] = a;
-        this.setState({ 
-          set: idx,
-          columns: copy });
-        console.log("copy", copy)
-      }
+      console.log(this.state.columns)
     }
   }
 
   render() {
-    console.log(this.state)
     return (
       <div className="all-columns">
         {this.state.columns.map((col, idx) => (
           <div key={idx} draggable="true" className="column" onDrag={this.move(idx)} onDragEnter={this.set(idx)}>
             <input value={col} onChange={this.update(idx)}/>
+            <button onClick={this.deleteColumn(idx)}>X</button>
           </div>
         ))}
       </div>
