@@ -1,16 +1,28 @@
+.board {
+  padding: 10px;
+}
+
 .all-columns {
   display: flex;
   margin: 10px;
   justify-content: center;
+  padding: 20px;
 }
 
 .column {
-  height: 600px;
+  height: 650px;
   width: 250px;
   border: 1px solid black;
   border-radius: 5px;
   margin: 5px;
   padding: 10px;
+}
+
+.column-head {
+  display: flex;
+  height: fit-content;
+  justify-content: center;
+  flex-direction: row;
 }
 
 .column:hover {

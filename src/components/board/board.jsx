@@ -1,5 +1,6 @@
 import React from "react";
 import './board.css';
+import Card from '../card/card';
 
 class Board extends React.Component {
   constructor(props) {
@@ -94,17 +95,20 @@ class Board extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="board">
+        <button onClick={this.addColumn()}>Add Column</button>
         <div className="all-columns">
           {this.state.columns.map((col, idx) => (
             <div key={idx} draggable="true" axis="x" className="column" onDrag={this.move(idx)} onDragOver={this.set(idx)} onDrop={this.swap()}>
-              <input value={col} onChange={this.update(idx)} className="column-title" />
-              <button onClick={this.deleteColumn(idx)}>X</button>
-              <button>+</button>
+              <div className="column-head">
+                <input value={col} onChange={this.update(idx)} className="column-title" />
+                <button onClick={this.deleteColumn(idx)}>X</button>
+                <button>+</button>
+              </div>
+              {/* <Card /> */}
             </div>
           ))}
         </div>
-        <button onClick={this.addColumn()}>Add Column</button>
       </div>
     )
   }
