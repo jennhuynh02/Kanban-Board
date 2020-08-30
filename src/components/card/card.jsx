@@ -1,47 +1,29 @@
 import React from "react";
+import './card.css';
 
 class Card extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: props.title,
-            description: props.description,
-            hidden: true,
+            hidden: false,
         }
     }
 
-    updateTitle(t){
-        this.setState({title: t});
-    }
-
-    updateDescription(desc){
-        this.setState({desc: desc});
-    }
-
-    deleteCard(){
+    deleteCard() {
         // delete code here
         // need to interact with local storage?
     }
 
-    toggleCard(){
-        this.setState({hidden: !this.state.hidden})
+    toggleCard() {
+        this.setState({ hidden: !this.state.hidden })
     }
 
-    render(){
+    render() {
+        const { updateCard, categoryIdx, cardID, title, description } = this.props;
         return (
-            <div className="card">
-                <div className="cardTitle">
-                    {this.state.title}
-                </div>
-                {this.state.hidden ?
-                    (<div className="cardDescription" hidden>
-                        {this.state.description}
-                    </div>) :
-                    (<div className="cardDescription">
-                        {this.state.description}
-                    </div>)
-                }
-                
+            <div className="card" draggable="true">
+                <input className="cardTitle" value={title} onChange={updateCard(categoryIdx, cardID, "title")} />
+                <input className="cardDescription" value={description} hidden={this.state.hidden} onChange={updateCard(categoryIdx, cardID, "description")} />
             </div>
         )
     }
