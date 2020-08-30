@@ -1,4 +1,4 @@
-gimport React from "react";
+import React from "react";
 import './board.css';
 import Card from '../card/card';
 
@@ -7,7 +7,9 @@ class Board extends React.Component {
     super(props);
     this.state = {
       columns: ["Todo", "In progress", "Done"],
-      cards: { 0: [{ "title": "One", "description": "Apple" }], 1: [{ "title": "Two", "description": "Banana" }], 2: [{ "title": "Three", "description": "Carrot" }] },
+      cards: { 0: [{ "title": "One", "description": "Apple", "columnId": 0, "cardId": 0 }],
+        1: [{ "title": "Two", "description": "Banana", "columnId": 1, "cardId": 0 }],
+        2: [{ "title": "Three", "description": "Carrot", "columnId": 2, "cardId": 0 }] },
       unassigned: [],
       drag: null,
       set: null,
@@ -16,6 +18,7 @@ class Board extends React.Component {
     this.update = this.update.bind(this);
     this.updateCard = this.updateCard.bind(this);
     this.createCard = this.createCard.bind(this);
+    this.removeCard = this.removeCard.bind(this)
     this.editColumn = this.editColumn.bind(this);
     this.swap = this.swap.bind(this);
   }
@@ -42,11 +45,24 @@ class Board extends React.Component {
     }    
   }
 
+  removeCard(idx, cardId){
+    let copy = this.state.cards;
+    
+    for(let i = cardId+1; i < copy[idx].length; i++){
+      console.log(this.state.cards, idx, i)
+      copy[idx][i].cardID = i-1;
+    }
+    copy[idx] = copy[idx].slice(0, cardId).concat(copy[idx].slice(cardId+1));
+    this.setState({cards: copy})
+
+  }
+
   createCard(idx) {
+    console.log("last state", this.state.cards)
     return (e) => {
       e.preventDefault();
       let updated = this.state.cards;
-      updated[idx].push({title:"", description: ""});
+      updated[idx].push({title:"", description: "", columnId: idx, slotId: this.state.cards[idx].length});
       this.setState({ cards: updated });
     }    
   }
@@ -86,6 +102,14 @@ class Board extends React.Component {
     }
   }
 
+  move() {
+    return (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      let copy = this.state.cards[this.state.drag];
+
+    }
+  }
   swap() {
     return (e) => {
       e.stopPropagation();
@@ -126,7 +150,7 @@ class Board extends React.Component {
                 <input value={col} onChange={this.update(idx)} className="column-title" />
               </div>
               {this.state.cards[idx].map((card, cardID) => (
-                <Card title={card.title} description={card.description} categoryIdx={idx} cardID={cardID} key={cardID} updateCard={this.updateCard}/>
+                <Card title={card.title} description={card.description} categoryIdx={idx} cardID={cardID} key={cardID} updateCard={this.updateCard} removeCard={this.removeCard}/>
                 ))}
             <div className="column-buttons">
               <button onClick={this.editColumn(idx)}>Delete Column</button>

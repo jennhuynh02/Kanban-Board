@@ -8,11 +8,13 @@ class Card extends React.Component {
             hidden: false,
         }
         this.toggleCard = this.toggleCard.bind(this);
+        this.deleteCard = this.deleteCard.bind(this);
     }
 
     deleteCard() {
-        // delete code here
-        // need to interact with local storage?
+        console.log("here")
+        const {categoryIdx, cardID} = this.props;
+        this.props.removeCard(categoryIdx, cardID);
     }
 
     toggleCard() {
@@ -30,6 +32,7 @@ class Card extends React.Component {
                 <input className="card-description" value={description} placeholder="Description" hidden={this.state.hidden} onChange={updateCard(categoryIdx, cardID, "description")} />
                 <br/>
                 <button onClick={this.toggleCard()}>{this.state.hidden ? (<p>Show Details</p>) : (<p>Hide Details</p>)}</button>
+                <button onClick={this.deleteCard}>Delete</button>
             </div>
         )
     }
