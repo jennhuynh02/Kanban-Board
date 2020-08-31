@@ -22,7 +22,14 @@
 }
 
 .card-description {
+    background-color: transparent;
+    border: none;
+    color: white;
+}
 
+.card-description:focus {
+    background-color: white;
+    color: black;    
 }
 
 ::placeholder {

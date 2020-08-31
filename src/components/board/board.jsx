@@ -175,13 +175,14 @@ class Board extends React.Component {
               <div className="column-head">
                 <input value={col} onChange={this.update(idx)} className="column-title" />
               </div>
+              
+              <div className="column-buttons">
+                <button onClick={this.editColumn(idx)}>Delete Column</button>
+                <button onClick={this.createCard(idx)}>Add Task</button>
+              </div>
               {this.state.cards[idx].map((card, cardID) => (
                 <Card title={card.title} description={card.description} categoryIdx={idx} cardID={cardID} key={cardID} fetchDragAndSet={this.fetchDragAndSet} moveCard={this.moveCard} updateCard={this.updateCard} removeCard={this.removeCard}/>
                 ))}
-            <div className="column-buttons">
-              <button onClick={this.editColumn(idx)}>Delete Column</button>
-              <button onClick={this.createCard(idx)}>Add Task</button>
-            </div>
             </div>
           ))}
         </div>
