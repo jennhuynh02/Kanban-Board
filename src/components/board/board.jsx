@@ -168,7 +168,7 @@ class Board extends React.Component {
   render() {
     return (
       <div className="board">
-        <button><a href="url">ReadMe Guide</a></button>
+        <button><a href="https://github.com/jennhuynh02/Kanban-Board/blob/master/README.md">ReadMe Guide</a></button>
         <br/><br/>
         <button onClick={this.editColumn()}>Add Column</button>
         <div className="all-columns">
