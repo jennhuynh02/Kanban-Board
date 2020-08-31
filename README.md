@@ -1,5 +1,7 @@
 # Kanban-Board
 
+Link to Project: https://jennhuynh02.github.io/Kanban-Board/
+
 Kanban-Board is Kanban Board web application created by Jennifer Huynh and Michael Murry. The board consists of three default columns and three default task cards. Task cards and columns can be added to and deleted from the Kanban Board. 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
