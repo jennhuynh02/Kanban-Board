@@ -168,6 +168,8 @@ class Board extends React.Component {
   render() {
     return (
       <div className="board">
+        <button><a href="https://github.com/jennhuynh02/Kanban-Board/blob/master/README.md">ReadMe Guide</a></button>
+        <br/><br/>
         <button onClick={this.editColumn()}>Add Column</button>
         <div className="all-columns">
           {this.state.columns.map((col, idx) => (
