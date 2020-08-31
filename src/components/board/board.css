@@ -52,6 +52,12 @@ input {
   cursor: pointer;
 }
 
+a {
+  text-decoration: none;
+  background: inherit;
+  color: black;
+}
+
 /* Dropdown CSS */
 
 .dropdown {
