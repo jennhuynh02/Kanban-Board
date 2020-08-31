@@ -1,68 +1,70 @@
+# Kanban-Board
+
+Kanban-Board is Kanban Board web application created by Jennifer Huynh and Michael Murry. The board consists of three default columns and three default task cards. Task cards and columns can be added to and deleted from the Kanban Board. 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Motivation
 
-In the project directory, you can run:
+Kanban-Board was inspired by the JS Olympic Hackathon event ran by Mintbean (https://sites.google.com/mintbean.io/javascriptbootcampolympics/home). This event was shared to us by an App Academy email blast. Jennifer Huynh and Michael Murry were both interested in this event and ended up teaming up together to create this Kanban-Board project.
 
-### `npm start`
+## The Journey
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Creating this project was not an easy task. There were hurdles we (Jenn and Michael) had to overcome. Some of these hurdes include.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Ordering the columns correctly after a drag and drop
+ * There was an issue of the drop function being ran more than once. We had to fix this issue by onDrop instead of onEnter. onDrop was eventually replaced by onDragEnd.
 
-### `npm test`
+### Not triggering the columns drop function when a task card gets dropped
+ * When designing the card drop function, we had the issue of the column drop function being called at the same time. This was due to the card being inside the column element. We ended up fixing this issue with the stopPropagation() command.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Jennifer Huyhn and Michael Murry both agreed this was a great experience and enjoyed participating in the Hackathan.
 
-### `npm run build`
+## How to use the Application
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Column Titles can be edited when clicked on and the two buttons under the title can be used for deleting columns and adding tasks.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+<img width="222" alt="Screen Shot 2020-08-31 at 6 07 53 AM" src="https://user-images.githubusercontent.com/38839723/91723586-d3b53280-eb50-11ea-90bb-c4da09ecbf1b.png">
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+_When a column is deleted all the tasks cards in it are also deleted_
 
-### `npm run eject`
+### Columns can be moved with drag and drop
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<img width="475" alt="Screen Shot 2020-08-31 at 5 55 24 AM" src="https://user-images.githubusercontent.com/38839723/91722132-b1bab080-eb4e-11ea-8e87-e6c7bd4bce65.png">
+<img width="458" alt="Screen Shot 2020-08-31 at 5 47 28 AM" src="https://user-images.githubusercontent.com/38839723/91722107-a8314880-eb4e-11ea-8f83-7b873c509951.png">
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Clicking the task card title allows you to edit it.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+<img width="209" alt="Screen Shot 2020-08-31 at 5 47 51 AM" src="https://user-images.githubusercontent.com/38839723/91721802-322ce180-eb4e-11ea-98ae-d795b633c019.png">
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Clicking the task card description allows you to edit it
 
-## Learn More
+<img width="196" alt="Screen Shot 2020-08-31 at 5 48 00 AM" src="https://user-images.githubusercontent.com/38839723/91721862-4a046580-eb4e-11ea-899b-c981f046f6b2.png">
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Task cards can be moves with the menu buttons or drag and drop
+<img width="464" alt="Screen Shot 2020-08-31 at 6 02 21 AM" src="https://user-images.githubusercontent.com/38839723/91722786-9e5c1500-eb4f-11ea-9183-bcd7047d7ff6.png">
+<img width="401" alt="Screen Shot 2020-08-31 at 6 01 28 AM" src="https://user-images.githubusercontent.com/38839723/91722801-a1ef9c00-eb4f-11ea-8897-6ca767465037.png">
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The delete menu item can delete the card, and the hide button will hide the description. 
 
-### Code Splitting
+### Example of the button from the menu displayed as show 
+<img width="193" alt="Screen Shot 2020-08-31 at 6 05 02 AM" src="https://user-images.githubusercontent.com/38839723/91723035-00b51580-eb50-11ea-9259-705aa80ea9ba.png">
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
 
-### Analyzing the Bundle Size
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Kanban-Board Team
+  -----------------------------------------------------------------
 
-### Making a Progressive Web App
+### Co-Leader: Jenn Huynh
+### [LinkedIn](https://www.linkedin.com/in/jenniferanhhuynh/)
+### [Github](https://github.com/jennhuynh02)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+  -----------------------------------------------------------------
 
-### Advanced Configuration
+### Co-Leader: Michael Murry
+### [LinkedIn](https://www.linkedin.com/in/michael-murry-b3746a1a6/)
+### [Github](https://github.com/MichaelMurry49)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+  -----------------------------------------------------------------
 
-### Deployment
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
